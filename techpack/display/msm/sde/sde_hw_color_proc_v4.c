@@ -269,9 +269,12 @@ void sde_setup_dspp_pccv4(struct sde_hw_dspp *ctx, void *cfg)
 		}
 
 		SDE_REG_WRITE(&ctx->hw, base + PCC_C_OFF, coeffs->c);
-		SDE_REG_WRITE(&ctx->hw, base + PCC_R_OFF, coeffs->r);
-		SDE_REG_WRITE(&ctx->hw, base + PCC_G_OFF, coeffs->g);
-		SDE_REG_WRITE(&ctx->hw, base + PCC_B_OFF, coeffs->b);
+		SDE_REG_WRITE(&ctx->hw, base + PCC_R_OFF,
+	i == 0 ? (coeffs->r * kcal_red) / 256 : coeffs->r);
+		SDE_REG_WRITE(&ctx->hw, base + PCC_G_OFF,
+	i == 1 ? (coeffs->g * kcal_green) / 256 : coeffs->g);
+		SDE_REG_WRITE(&ctx->hw, base + PCC_B_OFF,
+	i == 2 ? (coeffs->b * kcal_blue) / 256 : coeffs->b);
 		SDE_REG_WRITE(&ctx->hw, base + PCC_RG_OFF, coeffs->rg);
 		SDE_REG_WRITE(&ctx->hw, base + PCC_RB_OFF, coeffs->rb);
 		SDE_REG_WRITE(&ctx->hw, base + PCC_GB_OFF, coeffs->gb);
